@@ -7,6 +7,6 @@ CREATE TABLE quality
     so2 DOUBLE NOT NULL,
     o3 DOUBLE NOT NULL,
     location  VARCHAR(255) NULL,
-    timestamp datetime NULL,
+    timestamp timestamp NULL,
     CONSTRAINT `pk_qualıty` PRIMARY KEY (id)
 );

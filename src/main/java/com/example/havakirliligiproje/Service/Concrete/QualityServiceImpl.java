@@ -55,8 +55,7 @@ public class QualityServiceImpl implements QualityService {
         Quality dto = new Quality();
         dto.setLocation(airQuality.getLocation());
         dto.setPm25(airQuality.getPm25());
-        dto.setPm10(airQuality
-                .getPm10());
+        dto.setPm10(airQuality.getPm10());
         dto.setNo2(airQuality.getNo2());
         dto.setSo2(airQuality.getSo2());
         dto.setO3(airQuality.getO3());
@@ -75,5 +74,10 @@ public class QualityServiceImpl implements QualityService {
                 longitude - tolerance,
                 longitude + tolerance
         );
+    }
+
+    @Override
+    public List<Quality> getLast24HoursDataByLocation(String location) {
+        return airQualityRepository.findLast24HoursByLocation(location);
     }
 }

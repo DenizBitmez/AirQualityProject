@@ -1,6 +1,8 @@
 package com.example.havakirliligiproje.Controller;
 
 import com.example.havakirliligiproje.Api.ApiResponse;
+import com.example.havakirliligiproje.Dto.Request.QualityRequest;
+import com.example.havakirliligiproje.Dto.Response.QualityResponse;
 import com.example.havakirliligiproje.Entity.Quality;
 import com.example.havakirliligiproje.Service.Concrete.QualityServiceImpl;
 import org.springframework.http.HttpStatus;
@@ -8,7 +10,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
 @RestController
 @RequestMapping("/api/quality")
 public class QualityController {
@@ -57,15 +58,23 @@ public class QualityController {
     }
 
     @PostMapping
-    public ResponseEntity<ApiResponse> addAirQualityData(@RequestBody Quality airQuality) {
-        try {
-            airQualityService.addAirQualityData(airQuality);
-            ApiResponse response = new ApiResponse("success", "Veri başarıyla kaydedildi ve kuyruğa alındı.");
-            return new ResponseEntity<>(response, HttpStatus.CREATED);
-        } catch (Exception e) {
-            ApiResponse response = new ApiResponse("error", "Veri eklerken bir hata oluştu: " + e.getMessage());
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    public ResponseEntity<QualityResponse> addAirQualityData(@RequestBody QualityRequest airQuality) {
+        Quality quality = new Quality();
+        quality.setLocation(airQuality.getLocation());
+        quality.setPm25(airQuality.getPm25());
+        quality.setPm25(airQuality.getPm10());
+        quality.setPm25(airQuality.getO3());
+        quality.setPm25(airQuality.getSo2());
+        quality.setPm25(airQuality.getNo2());
+
+        Quality savedData = airQualityService.saveAirQualityData(quality);
+
+        QualityResponse response = new QualityResponse(
+                "success",
+                "Veri başarıyla kaydedildi.",
+                savedData
+        );
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/region/pollution")
@@ -77,5 +86,18 @@ public class QualityController {
         }
         ApiResponse response = new ApiResponse("success", "Bölgedeki kirlilik yoğunluğu başarıyla getirildi.");
         return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/last-24-hours/{location}")
+    public ResponseEntity<ApiResponse> getLast24HoursDataByLocation(@PathVariable String location) {
+        List<Quality> data = airQualityService.getLast24HoursDataByLocation(location);
+
+        if (data.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ApiResponse("error", "Son 24 saatte veri bulunamadı"));
+        }
+
+        return ResponseEntity.ok()
+                .body(new ApiResponse("success", "Son 24 saat verileri"));
     }
 }

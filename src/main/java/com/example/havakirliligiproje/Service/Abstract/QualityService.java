@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 
 import java.util.List;
 
+
 public interface QualityService {
     List<Quality> getAllAirQualityData();
 
@@ -17,5 +18,7 @@ public interface QualityService {
     void addAirQualityData(Quality airQuality)throws JsonProcessingException;
 
     List<Quality> getPollutionByRegion(double latitude, double longitude);
+
+    List<Quality> getLast24HoursDataByLocation(String location);
 
 }
