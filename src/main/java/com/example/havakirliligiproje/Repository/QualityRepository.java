@@ -1,6 +1,6 @@
 package com.example.havakirliligiproje.Repository;
 
-import com.example.havakirliligiproje.Model.Quality;
+import com.example.havakirliligiproje.Entity.Quality;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

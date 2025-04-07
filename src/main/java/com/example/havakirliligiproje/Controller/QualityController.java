@@ -1,8 +1,8 @@
 package com.example.havakirliligiproje.Controller;
 
 import com.example.havakirliligiproje.Api.ApiResponse;
-import com.example.havakirliligiproje.Model.Quality;
-import com.example.havakirliligiproje.Service.QualityService;
+import com.example.havakirliligiproje.Entity.Quality;
+import com.example.havakirliligiproje.Service.Concrete.QualityServiceImpl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,9 +12,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/quality")
 public class QualityController {
-    private final QualityService airQualityService;
+    private final QualityServiceImpl airQualityService;
 
-    public QualityController(QualityService airQualityService) {
+    public QualityController(QualityServiceImpl airQualityService) {
         this.airQualityService = airQualityService;
     }
 

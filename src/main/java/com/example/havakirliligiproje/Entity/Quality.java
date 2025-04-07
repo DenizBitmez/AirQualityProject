@@ -1,4 +1,4 @@
-package com.example.havakirliligiproje.Model;
+package com.example.havakirliligiproje.Entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
