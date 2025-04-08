@@ -25,7 +25,7 @@ public class QualityController {
     }
 
     @GetMapping("/location/{location}")
-    public ResponseEntity<ApiResponse> getAirQualityByLocation(@PathVariable String location) {
+    public ResponseEntity<ApiResponse> getAirQualityByLocation(@RequestParam String location) {
         Quality quality = airQualityService.getAirQualityByLocation(location);
         if (quality == null) {
             ApiResponse response = new ApiResponse("error", "Belirtilen konum için hava kalitesi verisi bulunamadı.");

@@ -13,7 +13,7 @@ public class Consumer {
     public Consumer(QualityRepository qualityRepository) {
         this.qualityRepository = qualityRepository;
     }
-    @KafkaListener(topics = "pollution-data-topic", groupId = "group_id")
+    @KafkaListener(topics = "air-quality-topic", groupId = "group_id")
     public void consume(String message) {
         ObjectMapper objectMapper = new ObjectMapper();
         try {
