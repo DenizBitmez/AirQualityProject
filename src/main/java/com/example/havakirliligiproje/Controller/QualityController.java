@@ -1,22 +1,29 @@
 package com.example.havakirliligiproje.Controller;
 
 import com.example.havakirliligiproje.Api.ApiResponse;
+import com.example.havakirliligiproje.Dto.Request.AnomalyRequest;
 import com.example.havakirliligiproje.Dto.Request.QualityRequest;
+import com.example.havakirliligiproje.Dto.Response.AnomalyResponse;
 import com.example.havakirliligiproje.Dto.Response.QualityResponse;
 import com.example.havakirliligiproje.Entity.Quality;
+import com.example.havakirliligiproje.Service.Concrete.NotificationService;
 import com.example.havakirliligiproje.Service.Concrete.QualityServiceImpl;
+import jakarta.validation.Valid;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
 @RestController
 @RequestMapping("/api/quality")
 public class QualityController {
     private final QualityServiceImpl airQualityService;
-
-    public QualityController(QualityServiceImpl airQualityService) {
+    private final NotificationService notificationService;
+    public QualityController(QualityServiceImpl airQualityService, NotificationService notificationService) {
         this.airQualityService = airQualityService;
+        this.notificationService = notificationService;
     }
 
     @GetMapping("/all")
@@ -24,7 +31,7 @@ public class QualityController {
         return airQualityService.getAllAirQualityData();
     }
 
-    @GetMapping("/location/{location}")
+    @GetMapping("/location")
     public ResponseEntity<ApiResponse> getAirQualityByLocation(@RequestParam String location) {
         Quality quality = airQualityService.getAirQualityByLocation(location);
         if (quality == null) {
@@ -41,24 +48,25 @@ public class QualityController {
     }
 
     @GetMapping("/anomaly/{location}")
-    public ResponseEntity<ApiResponse> checkAnomalies(
-            @RequestParam String location,
+    public ResponseEntity<AnomalyResponse> detectAnomalies(
+            @PathVariable String location,
             @RequestParam String startDate,
             @RequestParam String endDate) {
 
-        List<Quality> anomalies = airQualityService.findAnomalies(location, startDate, endDate);
+        List<AnomalyRequest> anomalies = airQualityService.detectAnomalies(location, startDate, endDate);
 
-        if (anomalies.isEmpty()) {
-            ApiResponse response = new ApiResponse("error", "Belirtilen tarihler arasında anomali tespit edilmedi.");
-            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        if (!anomalies.isEmpty()) {
+            anomalies.forEach(anomaly ->
+                    notificationService.sendAnomalyAlert(location, anomaly));
         }
 
-        ApiResponse response = new ApiResponse("success", "Anomaliler başarıyla getirildi.");
-        return new ResponseEntity<>(response, HttpStatus.OK);
+        return anomalies.isEmpty() ?
+                ResponseEntity.notFound().build() :
+                ResponseEntity.ok(AnomalyResponse.success(anomalies));
     }
 
     @PostMapping
-    public ResponseEntity<QualityResponse> addAirQualityData(@RequestBody QualityRequest airQuality) {
+    public ResponseEntity<QualityResponse> addAirQualityData(@Valid @RequestBody QualityRequest airQuality) {
         Quality quality = new Quality();
         quality.setLocation(airQuality.getLocation());
         quality.setPm25(airQuality.getPm25());
@@ -99,5 +107,14 @@ public class QualityController {
 
         return ResponseEntity.ok()
                 .body(new ApiResponse("success", "Son 24 saat verileri"));
+    }
+
+    @GetMapping("/regional-anomalies")
+    public List<AnomalyRequest> checkRegionalAnomalies(
+            @RequestParam double lat,
+            @RequestParam double lon,
+            @RequestParam(defaultValue = "25") double radiusKm) {
+
+        return airQualityService.checkRegionalAnomalies(lat, lon, radiusKm);
     }
 }
