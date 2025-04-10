@@ -14,7 +14,8 @@ services:
       - kafka-net
 
   kafka:
-    image: bitnami/kafka:3.5.1-debian-11-r0
+#    image: bitnami/kafka:3.5.1-debian-11-r0
+    image: bitnami/kafka:3.9.0
     container_name: kafka
     environment:
       KAFKA_BROKER_ID: 1
