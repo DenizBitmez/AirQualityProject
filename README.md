@@ -18,3 +18,5 @@ Mimari olarak Monolitik bir yapı kullanılmıştır. Böylece proje daha esteti
 ## Kullanılan Teknolojiler:
 
 Java (Spring Boot), Monolitik mimari, Apache Kafka, TimescaleDB,  InfluxDB, React, Mapbox,  Chart.js, Z-score, Docker, Postman.
+
+![quality1](https://github.com/user-attachments/assets/4690065f-293d-433e-bae3-0e02f383c08e)
