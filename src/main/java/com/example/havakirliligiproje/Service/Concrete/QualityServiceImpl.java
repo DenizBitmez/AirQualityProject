@@ -42,8 +42,8 @@ public class QualityServiceImpl implements QualityService {
     }
 
     @Override
-    public Quality getAirQualityByLocation(String location) {
-        return airQualityRepository.findByLocation(location).orElse(null);
+    public List<Quality> getAirQualityByLocation(String location) {
+        return airQualityRepository.findByLocation(location);
     }
 
     @Override
@@ -64,6 +64,8 @@ public class QualityServiceImpl implements QualityService {
         dto.setSo2(airQuality.getSo2());
         dto.setO3(airQuality.getO3());
         dto.setTimestamp(airQuality.getTimestamp());
+        dto.setDate(airQuality.getDate());
+        dto.setTimestamp(airQuality.getTimestamp().atZone(ZoneId.systemDefault()).toInstant());
 
         producer.sendMessage("pollution-data-topic", new ObjectMapper().writeValueAsString(dto));
     }
@@ -109,7 +111,6 @@ public class QualityServiceImpl implements QualityService {
         );
     }
 
-    // 3. Anomalileri tespit etme (Controller'da kullanılan ana metod)
     @Override
     public List<AnomalyRequest> detectAnomalies(String location, String startDate, String endDate) {
         List<Quality> dataInRange = getDataByDateRange(location, startDate, endDate);
@@ -128,7 +129,15 @@ public class QualityServiceImpl implements QualityService {
 
     private AnomalyRequest createAnomalyDTO(Quality data, List<Quality> historicalData) {
         String type = determineAnomalyType(data, historicalData);
-        return new AnomalyRequest();
+        AnomalyRequest dto = new AnomalyRequest();
+        dto.setLocation(data.getLocation());
+        dto.setPm25(data.getPm25());
+        dto.setPm10(data.getPm10());
+        dto.setTimestamp(data.getTimestamp());
+        dto.setAnomalyType(type);
+        dto.setQualityData(data);
+
+        return dto;
     }
 
     private String determineAnomalyType(Quality data, List<Quality> historicalData) {

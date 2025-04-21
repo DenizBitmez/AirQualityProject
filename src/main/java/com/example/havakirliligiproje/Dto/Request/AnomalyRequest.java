@@ -1,6 +1,8 @@
 package com.example.havakirliligiproje.Dto.Request;
 
 import com.example.havakirliligiproje.Entity.Quality;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +16,11 @@ import java.time.Instant;
 @AllArgsConstructor
 public class AnomalyRequest {
     private String location;
+    @NotNull
+    @Positive
     private Double pm25;
+    @NotNull
+    @Positive
     private Double pm10;
     private Instant timestamp;
     private String anomalyType;

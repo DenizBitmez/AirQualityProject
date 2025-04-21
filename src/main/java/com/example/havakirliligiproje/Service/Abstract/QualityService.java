@@ -10,7 +10,7 @@ import java.util.List;
 public interface QualityService {
     List<Quality> getAllAirQualityData();
 
-    Quality getAirQualityByLocation(String location);
+    List<Quality> getAirQualityByLocation(String location);
 
     Quality saveAirQualityData(Quality airQuality);
 
@@ -27,8 +27,5 @@ public interface QualityService {
     List<AnomalyRequest> detectAnomalies(String location, String startDate, String endDate);
 
     List<AnomalyRequest> checkRegionalAnomalies(double latitude, double longitude, double radiusKm);
-
-
-
 
 }

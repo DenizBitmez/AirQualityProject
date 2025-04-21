@@ -9,7 +9,6 @@ import com.example.havakirliligiproje.Entity.Quality;
 import com.example.havakirliligiproje.Service.Concrete.NotificationService;
 import com.example.havakirliligiproje.Service.Concrete.QualityServiceImpl;
 import jakarta.validation.Valid;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -33,12 +32,12 @@ public class QualityController {
 
     @GetMapping("/location")
     public ResponseEntity<ApiResponse> getAirQualityByLocation(@RequestParam String location) {
-        Quality quality = airQualityService.getAirQualityByLocation(location);
-        if (quality == null) {
+        List<Quality> quality = airQualityService.getAirQualityByLocation(location);
+        if (quality == null || quality.isEmpty()) {
             ApiResponse response = new ApiResponse("error", "Belirtilen konum için hava kalitesi verisi bulunamadı.");
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
-        ApiResponse response = new ApiResponse("success", "Hava kalitesi verisi başarıyla getirildi.");
+        ApiResponse response = new ApiResponse("success", "Hava kalitesi verisi başarıyla getirildi.",quality);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -65,7 +64,7 @@ public class QualityController {
                 ResponseEntity.ok(AnomalyResponse.success(anomalies));
     }
 
-    @PostMapping
+    @PostMapping("/add")
     public ResponseEntity<QualityResponse> addAirQualityData(@Valid @RequestBody QualityRequest airQuality) {
         Quality quality = new Quality();
         quality.setLocation(airQuality.getLocation());
@@ -92,7 +91,7 @@ public class QualityController {
             ApiResponse response = new ApiResponse("error", "Bu bölgedeki hava kalitesi verisi bulunamadı.");
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
-        ApiResponse response = new ApiResponse("success", "Bölgedeki kirlilik yoğunluğu başarıyla getirildi.");
+        ApiResponse response = new ApiResponse("success", "Bölgedeki kirlilik yoğunluğu başarıyla getirildi.",regionData);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
@@ -106,7 +105,7 @@ public class QualityController {
         }
 
         return ResponseEntity.ok()
-                .body(new ApiResponse("success", "Son 24 saat verileri"));
+                .body(new ApiResponse("success", "Son 24 saat verileri",data));
     }
 
     @GetMapping("/regional-anomalies")

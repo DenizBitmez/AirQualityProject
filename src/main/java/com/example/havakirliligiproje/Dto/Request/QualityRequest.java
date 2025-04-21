@@ -1,6 +1,7 @@
 package com.example.havakirliligiproje.Dto.Request;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -14,18 +15,21 @@ import lombok.Setter;
 public class QualityRequest {
     @NotBlank
     private String location;
+    @NotNull
     @Positive
     private Double pm25;
+    @NotNull
     @Positive
     private Double pm10;
+    @NotNull
     @Positive
     private double no2;
+    @NotNull
     @Positive
     private double so2;
+    @NotNull
     @Positive
     private double o3;
-    @Positive
     private double latitude;
-    @Positive
     private double longitude;
 }

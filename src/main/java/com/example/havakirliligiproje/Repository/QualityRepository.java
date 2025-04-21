@@ -13,7 +13,7 @@ import java.util.Optional;
 @Repository
 public interface QualityRepository extends JpaRepository<Quality, String> {
     @Query
-            (value = "SELECT * FROM air_quality_db WHERE location = :location AND timestamp >= NOW() - INTERVAL '24 hours'", nativeQuery = true)
+            (value = "SELECT * FROM quality WHERE location = :location AND timestamp >= NOW() - INTERVAL '24 hours'", nativeQuery = true)
     List<Quality> findLast24HoursByLocation(@Param("location") String location);
     List<Quality> findByLatitudeBetweenAndLongitudeBetween(
             double minLat, double maxLat,
@@ -35,5 +35,5 @@ public interface QualityRepository extends JpaRepository<Quality, String> {
             @Param("radius") double radius,
             @Param("cutoffTime") Instant cutoffTime);
 
-    Optional<Quality> findByLocation(String location);
+    List<Quality> findByLocation(String location);
 }

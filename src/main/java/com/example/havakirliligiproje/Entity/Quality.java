@@ -7,30 +7,32 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.Instant;
+import java.time.LocalDate;
 
 @Entity
 @Getter
 @Setter
+@Table(name = "air_quality_db")
 public class Quality {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @NotNull
-    @Positive
-    private double pm25;
-    @NotNull @Positive
-    private double pm10;
-    @NotNull @Positive
-    private double no2;
-    @NotNull @Positive
-    private double so2;
-    @NotNull @Positive
-    private double o3;
+    private Double pm25;
+    private Double pm10;
+    private Double no2;
+    private Double so2;
+    private Double o3;
     private String location;
     @Column(name = "timestamp", columnDefinition = "TIMESTAMPTZ")
     private Instant timestamp;
     @Column(name = "date")
     private String date;
-    private double latitude;
-    private double longitude;
+    private Double latitude;
+    private Double longitude;
+
+    @PrePersist
+    public void prePersist() {
+        this.timestamp = Instant.now();
+        this.date = LocalDate.now().toString();
+    }
 }
