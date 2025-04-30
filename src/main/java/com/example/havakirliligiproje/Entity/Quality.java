@@ -1,5 +1,6 @@
 package com.example.havakirliligiproje.Entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
@@ -23,16 +24,11 @@ public class Quality {
     private Double so2;
     private Double o3;
     private String location;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "UTC")
     @Column(name = "timestamp", columnDefinition = "TIMESTAMPTZ")
     private Instant timestamp;
     @Column(name = "date")
-    private String date;
+    private LocalDate date;
     private Double latitude;
     private Double longitude;
-
-    @PrePersist
-    public void prePersist() {
-        this.timestamp = Instant.now();
-        this.date = LocalDate.now().toString();
-    }
 }

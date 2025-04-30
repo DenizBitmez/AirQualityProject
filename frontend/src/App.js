@@ -1,6 +1,8 @@
 import logo from './logo.svg';
 import './App.css';
-
+import React from 'react';
+import HeatMap from './components/HeatMap';
+{ /*
 function App() {
   return (
     <div className="App">
@@ -19,6 +21,15 @@ function App() {
         </a>
       </header>
     </div>
+  );
+}
+*/}
+
+function App() {
+  return (
+      <div className="App">
+        <HeatMap />
+      </div>
   );
 }
 
