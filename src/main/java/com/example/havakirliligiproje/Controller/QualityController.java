@@ -14,12 +14,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
+
+
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
 @RequestMapping("/api/quality")
 public class QualityController {
     private final QualityServiceImpl airQualityService;
     private final NotificationService notificationService;
+
     public QualityController(QualityServiceImpl airQualityService, NotificationService notificationService) {
         this.airQualityService = airQualityService;
         this.notificationService = notificationService;
@@ -116,4 +120,28 @@ public class QualityController {
 
         return airQualityService.checkRegionalAnomalies(lat, lon, radiusKm);
     }
+
+    @GetMapping("/heatmap")
+    public ResponseEntity<Map<String, Object>> getHeatmapData(
+            @RequestParam Double minLat,
+            @RequestParam Double maxLat,
+            @RequestParam Double minLon,
+            @RequestParam Double maxLon,
+            @RequestParam(required = false) Integer zoomLevel) {
+        try {
+            Map<String, Object> heatmapData = airQualityService.getHeatmapData(
+                    minLat, maxLat, minLon, maxLon, zoomLevel
+            );
+            return ResponseEntity.ok(heatmapData);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError()
+                    .body(Map.of(
+                            "type", "FeatureCollection",
+                            "features", List.of(),
+                            "error", e.getMessage()
+                    ));
+        }
+    }
+
 }

@@ -1,10 +1,12 @@
 package com.example.havakirliligiproje.Service.Abstract;
 
 import com.example.havakirliligiproje.Dto.Request.AnomalyRequest;
+import com.example.havakirliligiproje.Dto.Response.HeatMapResponse;
 import com.example.havakirliligiproje.Entity.Quality;
 import com.fasterxml.jackson.core.JsonProcessingException;
 
 import java.util.List;
+import java.util.Map;
 
 
 public interface QualityService {
@@ -27,5 +29,12 @@ public interface QualityService {
     List<AnomalyRequest> detectAnomalies(String location, String startDate, String endDate);
 
     List<AnomalyRequest> checkRegionalAnomalies(double latitude, double longitude, double radiusKm);
+
+    Map<String, Object> getHeatmapData(
+            Double minLat, Double maxLat,
+            Double minLon, Double maxLon,
+            Integer zoomLevel);
+    double calculateGridSize(int zoomLevel);
+    double normalizeValue(double value, double min, double max);
 
 }

@@ -1,7 +1,8 @@
-import logo from './logo.svg';
 import './App.css';
 import React from 'react';
-import HeatMap from './components/HeatMap';
+import Home from './components/Home';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Dashboard from './components/Dashboard';
 { /*
 function App() {
   return (
@@ -27,9 +28,13 @@ function App() {
 
 function App() {
   return (
-      <div className="App">
-        <HeatMap />
-      </div>
+      <Router>
+          <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/dashboard" element={<Dashboard />} />
+          </Routes>
+      </Router>
+
   );
 }
 
