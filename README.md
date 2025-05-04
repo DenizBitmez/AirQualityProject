@@ -122,48 +122,72 @@ docker-compose up --build
 
 ```
 http://localhost:8080/api/quality/save
+
+![quality1](https://github.com/user-attachments/assets/263c9c62-36bb-4a90-8cbc-5c1202316e80)
+
 ```
 
 ### **GET Tüm Hava Kalitesini Getirme:**
 
 ```
 http://localhost:8080/api/quality/all
+
+![image](https://github.com/user-attachments/assets/2934a766-84bf-42f5-a4bd-5a28fbd80a16)
+
 ```
 
 ### **GET Lokasyona Göre Hava Kalitesini Getirme:**
 
 ```
-http://localhost:8080/api/quality/location?location=İzmir
+http://localhost:8080/api/quality/location?location=İstanbul
+
+![quality2](https://github.com/user-attachments/assets/a886f3e3-5fed-4cb1-bf02-1be66b99d9f6)
+
 ```
 
 ### **GET Anomali Getirme:**
 
 ```
 http://localhost:8080/api/quality/regional-anomalies?lat=39.925533&lon=31.866287&radiusKm=25
+
+![image](https://github.com/user-attachments/assets/419279ea-ff7b-417d-bfc4-8a3a36f0ff6a)
+
 ```
 
 ### **GET Lokasyon ve Tarihe Göre Hava Kirliliği Getirme:**
 
 ```
 http://localhost:8080/api/quality/anomaly/İzmir?startDate=2025-05-04T00:00:00Z&endDate=2025-05-04T23:59:59Z
+
+![image](https://github.com/user-attachments/assets/924f2284-abf9-4b12-b44f-6bec680e749c)
+
 ```
 
 ### **GET Son 24 Saatte Girilen Konumun Hava Kalitesi:**
 
 ```
 http://localhost:8080/api/quality/last-24-hours/İzmir
+
+![image](https://github.com/user-attachments/assets/ce40878d-2f18-4782-a19c-5195f66b8ca1)
+
 ```
 
 ### **GET Enlem ve Boylama Göre Hava Kirliliğini Getirme:**
 
 ```
 http://localhost:8080/api/quality/region/pollution?latitude=38.925533&longitude=31.866287
+
+![image](https://github.com/user-attachments/assets/c67c7066-1417-4d09-8a6b-53c2ce03bdff)
+
 ```
 
 ### **GET Isı Haritasını Getirme:**
 
 ```
 http://localhost:8080/api/quality/heatmap?minLat=35.0&maxLat=42.0&minLon=26.0&maxLon=45.0&zoomLevel=5
+
+![image](https://github.com/user-attachments/assets/189afaa0-03f0-424b-b468-5906df7b1c3d)
+
 ```
 
 ---
@@ -174,12 +198,18 @@ http://localhost:8080/api/quality/heatmap?minLat=35.0&maxLat=42.0&minLon=26.0&ma
 
 ```
 ./auto-test.sh --duration=60 --rate=3 --anomaly-chance=30
+
+![Ekran görüntüsü 2025-05-04 172006](https://github.com/user-attachments/assets/383cbed0-2927-4607-895e-fa6c90a9b07d)
+
 ```
 
 ### **scripts/manual-test.sh**
 
 ```
 ./manual-input.sh 40.7128 -74.0060 pm25 10
+
+![Ekran görüntüsü 2025-05-04 170659](https://github.com/user-attachments/assets/cfd0b90e-5623-42e8-8aef-fed3e6c04dac)
+
 ```
 
 ---
