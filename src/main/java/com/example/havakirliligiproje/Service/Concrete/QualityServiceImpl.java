@@ -148,6 +148,7 @@ public class QualityServiceImpl implements QualityService {
 
     @Override
     public List<AnomalyRequest> checkRegionalAnomalies(double latitude, double longitude, double radiusKm) {
+        double radiusInDegrees = radiusKm / 111.0;
         Instant cutoffTime = Instant.now().minus(24, ChronoUnit.HOURS);
         List<Quality> regionalData = airQualityRepository.findRegionalLast24Hours(latitude, longitude, radiusKm, cutoffTime);
 

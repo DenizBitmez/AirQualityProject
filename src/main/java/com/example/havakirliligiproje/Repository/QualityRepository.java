@@ -25,13 +25,13 @@ public interface QualityRepository extends JpaRepository<Quality, String> {
     );
 
     @Query(value = """
-        SELECT * FROM quality WHERE (POWER(latitude - :latitude, 2) + POWER(longitude - :longitude, 2)) <= POWER(:radius, 2)
+        SELECT * FROM air_quality WHERE (POWER(latitude - :latitude, 2) + POWER(longitude - :longitude, 2)) <= POWER(:radiusInDegrees, 2)
         AND timestamp >= :cutoffTime
         """, nativeQuery = true)
     List<Quality> findRegionalLast24Hours(
             @Param("latitude") double latitude,
             @Param("longitude") double longitude,
-            @Param("radius") double radius,
+            @Param("radiusInDegrees") double radiusInDegrees,
             @Param("cutoffTime") Instant cutoffTime);
 
     List<Quality> findByLocation(String location);

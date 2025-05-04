@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -92,11 +93,12 @@ public class QualityController {
     public ResponseEntity<ApiResponse> getPollutionByRegion(@RequestParam double latitude, @RequestParam double longitude) {
         List<Quality> regionData = airQualityService.getPollutionByRegion(latitude, longitude);
         if (regionData.isEmpty()) {
-            ApiResponse response = new ApiResponse("error", "Bu bölgedeki hava kalitesi verisi bulunamadı.");
-            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+            ApiResponse response = new ApiResponse("success", "Bu bölgedeki hava kalitesi verisi bulunamadı.", Collections.emptyList());
+            return ResponseEntity.ok(response);
         }
-        ApiResponse response = new ApiResponse("success", "Bölgedeki kirlilik yoğunluğu başarıyla getirildi.",regionData);
-        return new ResponseEntity<>(response, HttpStatus.OK);
+
+        ApiResponse response = new ApiResponse("success", "Bölgedeki kirlilik yoğunluğu başarıyla getirildi.", regionData);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping("/last-24-hours/{location}")

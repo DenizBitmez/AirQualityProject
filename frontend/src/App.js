@@ -3,6 +3,7 @@ import React from 'react';
 import Home from './components/Home';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Dashboard from './components/Dashboard';
+import "./ChartSetup";
 { /*
 function App() {
   return (

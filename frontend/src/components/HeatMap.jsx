@@ -1,15 +1,15 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import ReactMapGL, { Source, Layer } from 'react-map-gl';
+import axios from 'axios';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
-const HeatMap = () => {
+const HeatMap = ({ setAnomalies, fetchPollutionData, setLatitude, setLongitude }) => {
     const [viewport, setViewport] = useState({
         latitude: 38.925533,
         longitude: 33.866287,
         zoom: 5,
         bounds: null
     });
-
     const [heatmapData, setHeatmapData] = useState({
         type: 'FeatureCollection',
         features: []
@@ -45,7 +45,7 @@ const HeatMap = () => {
 
         const fetchData = async () => {
             setLoading(true);
-            setError(null);  // Hata mesajını sıfırlıyoruz
+            setError(null);
             try {
                 const { minLat, maxLat, minLon, maxLon } = viewport.bounds;
                 const gridSize = calculateGridSize(Math.floor(viewport.zoom));
@@ -56,9 +56,7 @@ const HeatMap = () => {
                     `minLon=${minLon}&maxLon=${maxLon}&` +
                     `gridSize=${gridSize}&zoomLevel=${zoomLevel}`;
 
-                console.log('İstek URL:', url); // URL'yi logla
                 const response = await fetch(url);
-                console.log('Sunucu yanıtı:', response.status, response.statusText); // Sunucu yanıtını logla
 
                 if (!response.ok) {
                     const errorData = await response.json().catch(() => null);
@@ -66,28 +64,49 @@ const HeatMap = () => {
                 }
 
                 const data = await response.json();
-                console.log('Alınan veri:', data);
 
                 if (!data || !Array.isArray(data.features)) {
-                    throw new Error("Geçersiz veri formatı");
+                    throw new Error('Geçersiz veri formatı');
                 }
 
                 setHeatmapData(data);
             } catch (err) {
-                console.error("Detaylı API Hatası:", {
-                    message: err.message,
-                    stack: err.stack,
-                    response: err.response
-                });
                 setError(`Hata: ${err.message}`);
                 setLoading(false);
             }
         };
 
-        const debounceTimer = setTimeout(fetchData, 500); // 500ms debounce
+        const debounceTimer = setTimeout(fetchData, 500);
         return () => clearTimeout(debounceTimer);
     }, [viewport.bounds, viewport.zoom]);
 
+    const fetchAnomalies = async (lat, lon) => {
+        try {
+            const response = await axios.get('http://localhost:8080/api/quality/regional-anomalies', {
+                params: {
+                    lat,
+                    lon,
+                    radiusKm: 25,
+                },
+            });
+
+            if (response.data) {
+                setAnomalies(response.data);  // setAnomalies fonksiyonunu burada kullanıyoruz
+            }
+        } catch (error) {
+            console.error('Anomali verisi alınırken hata:', error);
+        }
+    };
+
+    const handleMapClick = (e) => {
+        const { lng, lat } = e.lngLat;
+        setLatitude(lat);
+        setLongitude(lng);
+        fetchAnomalies(lat, lng);
+        fetchPollutionData(lat, lng);
+    };
+
+    // Heatmap Layer Tanımı
     const heatmapLayer = {
         id: 'heatmap',
         type: 'heatmap',
@@ -122,12 +141,14 @@ const HeatMap = () => {
                     {error}
                 </div>
             )}
+
             <ReactMapGL
                 {...viewport}
                 onMoveEnd={(evt) => setViewport({
                     ...evt.viewState,
                     bounds: calculateMapBounds(evt.target)
                 })}
+                onClick={handleMapClick}
                 mapStyle="mapbox://styles/mapbox/dark-v10"
                 mapboxAccessToken={process.env.REACT_APP_MAPBOX_TOKEN}
             >
