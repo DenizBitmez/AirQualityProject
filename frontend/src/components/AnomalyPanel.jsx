@@ -16,10 +16,10 @@ const AnomalyPanel = ({ latitude, longitude }) => {
                 });
 
                 if (response.data) {
-                    setAnomalies(response.data.anomalies);
+                    setAnomalies(response.data);
                 }
             } catch (error) {
-                console.error("Anomali verisi alınırken hata:", error);
+                console.error("Anomali verisi alınır ken hata:", error);
             }
         };
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from 'react';
-import ReactMapGL, { Source, Layer } from 'react-map-gl';
+import ReactMapGL, {Source, Layer, Popup} from 'react-map-gl';
 import axios from 'axios';
 import 'mapbox-gl/dist/mapbox-gl.css';
 
@@ -16,6 +16,8 @@ const HeatMap = ({ setAnomalies, fetchPollutionData, setLatitude, setLongitude }
     });
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
+
+    const [popupInfo, setPopupInfo] = useState(null);
 
     const calculateMapBounds = useCallback((map) => {
         const bounds = map.getBounds();
@@ -97,7 +99,6 @@ const HeatMap = ({ setAnomalies, fetchPollutionData, setLatitude, setLongitude }
             console.error('Anomali verisi alınırken hata:', error);
         }
     };
-
     const handleMapClick = (e) => {
         const { lng, lat } = e.lngLat;
         setLatitude(lat);
@@ -155,6 +156,25 @@ const HeatMap = ({ setAnomalies, fetchPollutionData, setLatitude, setLongitude }
                 <Source type="geojson" data={heatmapData}>
                     <Layer {...heatmapLayer} />
                 </Source>
+
+                {popupInfo && (
+                    <Popup
+                        latitude={popupInfo.latitude}
+                        longitude={popupInfo.longitude}
+                        closeButton={true}
+                        closeOnClick={false}
+                        onClose={() => setPopupInfo(null)}
+                    >
+                        <div>
+                            <h3>Kirlilik Verisi</h3>
+                            <p>PM2.5: {popupInfo.pm25} µg/m³</p>
+                            <p>PM10: {popupInfo.pm10} µg/m³</p>
+                            <p>NO2: {popupInfo.no2} µg/m³</p>
+                            <p>SO2: {popupInfo.so2} µg/m³</p>
+                            <p>O3: {popupInfo.o3} µg/m³</p>
+                        </div>
+                    </Popup>
+                )}
             </ReactMapGL>
         </div>
     );

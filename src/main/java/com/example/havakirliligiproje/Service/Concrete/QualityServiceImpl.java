@@ -148,23 +148,34 @@ public class QualityServiceImpl implements QualityService {
 
     @Override
     public List<AnomalyRequest> checkRegionalAnomalies(double latitude, double longitude, double radiusKm) {
-        double radiusInDegrees = radiusKm / 111.0;
         Instant cutoffTime = Instant.now().minus(24, ChronoUnit.HOURS);
-        List<Quality> regionalData = airQualityRepository.findRegionalLast24Hours(latitude, longitude, radiusKm, cutoffTime);
 
+        // Tüm 24 saatlik veriyi alıyoruz
+        List<Quality> allData = airQualityRepository.findLast24Hours(cutoffTime);
+
+        // Gerçek mesafeyi hesaplayarak bölgesel verileri filtreliyoruz
+        List<Quality> regionalData = allData.stream()
+                .filter(data -> haversine(latitude, longitude, data.getLatitude(), data.getLongitude()) <= radiusKm)
+                .toList();
+
+        // Anomalileri tespit ediyoruz
         return regionalData.stream()
-                .filter(data -> isRegionalAnomaly(data, regionalData))
+                .filter(data -> isAnomaly(data, regionalData))
                 .map(data -> createAnomalyDTO(data, regionalData))
-                .collect(Collectors.toList());
+                .toList();
     }
-    private boolean isRegionalAnomaly(Quality data, List<Quality> regionalData) {
-        double regionalAvg = regionalData.stream()
-                .mapToDouble(Quality::getPm25)
-                .average()
-                .orElse(0);
 
-        return Math.abs(data.getPm25() - regionalAvg) > (regionalAvg * 0.5);
+    private double haversine(double lat1, double lon1, double lat2, double lon2) {
+        double R = 6371;
+        double dLat = Math.toRadians(lat2 - lat1);
+        double dLon = Math.toRadians(lon2 - lon1);
+        double a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) *
+                        Math.sin(dLon / 2) * Math.sin(dLon / 2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        return R * c;
     }
+
 
     @Override
     public Map<String, Object> getHeatmapData(

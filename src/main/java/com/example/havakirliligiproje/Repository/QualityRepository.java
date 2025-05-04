@@ -11,9 +11,8 @@ import java.util.List;
 
 @Repository
 public interface QualityRepository extends JpaRepository<Quality, String> {
-    @Query
-            (value = "SELECT * FROM quality WHERE location = :location AND timestamp >= NOW() - INTERVAL '24 hours'", nativeQuery = true)
-    List<Quality> findLast24HoursByLocation(@Param("location") String location);
+    @Query("SELECT q FROM Quality q WHERE q.timestamp >= :cutoffTime")
+    List<Quality> findLast24Hours(@Param("cutoffTime") Instant cutoffTime);
     List<Quality> findByLatitudeBetweenAndLongitudeBetween(
             double minLat, double maxLat,
             double minLon, double maxLon);
@@ -62,4 +61,5 @@ public interface QualityRepository extends JpaRepository<Quality, String> {
             @Param("maxLon") Double maxLon,
             @Param("gridSize") Double gridSize);
 
+    List<Quality> findLast24HoursByLocation(String location);
 }
