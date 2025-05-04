@@ -123,7 +123,7 @@ docker-compose up --build
 ```
 http://localhost:8080/api/quality/save
 
-<img src=(https://github.com/user-attachments/assets/263c9c62-36bb-4a90-8cbc-5c1202316e80)>
+<img src="https://github.com/user-attachments/assets/263c9c62-36bb-4a90-8cbc-5c1202316e80" alt="Hava kalitesi ekleme" />
 
 ```
 
