@@ -123,7 +123,6 @@ docker-compose up --build
 ```
 http://localhost:8080/api/quality/save
 
-```json
 {
     "id": 11,
     "pm25": 290.0,         // PM2.5 (Partikül Madde) seviyesi
@@ -145,7 +144,6 @@ http://localhost:8080/api/quality/save
 ```
 http://localhost:8080/api/quality/all
 
-```json
 {
     "id": 136,
     "pm25": 290.0,
@@ -167,7 +165,6 @@ http://localhost:8080/api/quality/all
 ```
 http://localhost:8080/api/quality/location?location=İstanbul
 
-```json
 {
             "id": 11,
             "pm25": 290.0,
@@ -189,7 +186,6 @@ http://localhost:8080/api/quality/location?location=İstanbul
 ```
 http://localhost:8080/api/quality/regional-anomalies?lat=39.925533&lon=31.866287&radiusKm=25
 
-```json
  {
         "location": "AutoTest Location",
         "pm25": 185.0,
@@ -217,7 +213,6 @@ http://localhost:8080/api/quality/regional-anomalies?lat=39.925533&lon=31.866287
 ```
 http://localhost:8080/api/quality/anomaly/İzmir?startDate=2025-05-04T00:00:00Z&endDate=2025-05-04T23:59:59Z
 
-```json
 
  "message": "success",
     "data": "1 adet anomali bulundu",
@@ -250,7 +245,6 @@ http://localhost:8080/api/quality/anomaly/İzmir?startDate=2025-05-04T00:00:00Z&
 ```
 http://localhost:8080/api/quality/last-24-hours/İzmir
 
-```json
  {
             "id": 11,
             "pm25": 290.0,
@@ -272,7 +266,6 @@ http://localhost:8080/api/quality/last-24-hours/İzmir
 ```
 http://localhost:8080/api/quality/region/pollution?latitude=38.925533&longitude=31.866287
 
-```json
 
  "status": "success",
     "message": "Bölgedeki kirlilik yoğunluğu başarıyla getirildi.",
@@ -299,7 +292,6 @@ http://localhost:8080/api/quality/region/pollution?latitude=38.925533&longitude=
 ```
 http://localhost:8080/api/quality/heatmap?minLat=35.0&maxLat=42.0&minLon=26.0&maxLon=45.0&zoomLevel=5
 
-```json
 
  "features": [
         {
