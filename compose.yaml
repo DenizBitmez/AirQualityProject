@@ -48,21 +48,21 @@ services:
     networks:
       - kafka-net
 
-  backend:
-    build: .
-    container_name: backend
-    ports:
-      - "8081:8081"
-    depends_on:
-      - kafka
-      - timescaledb
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://timescaledb:5432/air_quality_db
-      SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: 12345
-      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
-    networks:
-      - kafka-net
+#  backend:
+#    build: .
+#    container_name: backend
+#    ports:
+#      - "8081:8081"
+#    depends_on:
+#      - kafka
+#      - timescaledb
+#    environment:
+#      SPRING_DATASOURCE_URL: jdbc:postgresql://timescaledb:5432/air_quality_db
+#      SPRING_DATASOURCE_USERNAME: postgres
+#      SPRING_DATASOURCE_PASSWORD: 12345
+#      KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+#    networks:
+#      - kafka-net
   frontend:
     build:
       context: ./frontend
