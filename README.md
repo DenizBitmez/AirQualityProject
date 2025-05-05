@@ -122,48 +122,193 @@ docker-compose up --build
 
 ```
 http://localhost:8080/api/quality/save
+
+{
+    "id": 11,
+    "pm25": 290.0,         // PM2.5 (Partikül Madde) seviyesi
+    "pm10": 410.0,         // PM10 seviyesi
+    "no2": 15.0,           // Azot dioksit (NO2) seviyesi
+    "so2": 5.0,            // Kükürt dioksit (SO2) seviyesi
+    "o3": 300.0,           // Ozon (O3) seviyesi
+    "location": "İzmir",   // Konum: İzmir
+    "timestamp": "2025-05-04T11:53:35.557468Z", // Verinin alındığı zaman
+    "date": null,          // Tarih bilgisi mevcut değil
+    "latitude": 38.925533, // Enlem
+    "longitude": 31.866287 // Boylam
+}
+
 ```
 
 ### **GET Tüm Hava Kalitesini Getirme:**
 
 ```
 http://localhost:8080/api/quality/all
+
+{
+    "id": 136,
+    "pm25": 290.0,
+    "pm10": 410.0,
+    "no2": 15.0,
+    "so2": 5.0,
+    "o3": 300.0,
+    "location": "İzmir",
+    "timestamp": "2025-05-04T23:56:38.741253Z",
+    "date": null,
+    "latitude": 38.925533,
+    "longitude": 31.866287
+}
+
 ```
 
 ### **GET Lokasyona Göre Hava Kalitesini Getirme:**
 
 ```
-http://localhost:8080/api/quality/location?location=İzmir
+http://localhost:8080/api/quality/location?location=İstanbul
+
+{
+            "id": 11,
+            "pm25": 290.0,
+            "pm10": 410.0,
+            "no2": 15.0,
+            "so2": 5.0,
+            "o3": 300.0,
+            "location": "İzmir",
+            "timestamp": "2025-05-04T11:53:35.557468Z",
+            "date": null,
+            "latitude": 38.925533,
+            "longitude": 31.866287
+        },
+
 ```
 
 ### **GET Anomali Getirme:**
 
 ```
 http://localhost:8080/api/quality/regional-anomalies?lat=39.925533&lon=31.866287&radiusKm=25
+
+ {
+        "location": "AutoTest Location",
+        "pm25": 185.0,
+        "pm10": null,
+        "timestamp": "2025-05-04T14:01:22.800513Z",
+        "anomalyType": "WHO_THRESHOLD",
+        "qualityData": {
+            "id": 19,
+            "pm25": 185.0,
+            "pm10": null,
+            "no2": null,
+            "so2": null,
+            "o3": null,
+            "location": "AutoTest Location",
+            "timestamp": "2025-05-04T14:01:22.800513Z",
+            "date": null,
+            "latitude": 40.7572,
+            "longitude": 41.0644
+        }
+
 ```
 
 ### **GET Lokasyon ve Tarihe Göre Hava Kirliliği Getirme:**
 
 ```
 http://localhost:8080/api/quality/anomaly/İzmir?startDate=2025-05-04T00:00:00Z&endDate=2025-05-04T23:59:59Z
+
+
+ "message": "success",
+    "data": "1 adet anomali bulundu",
+    "anomalyRequests": [
+        {
+            "location": "İzmir",
+            "pm25": 290.0,
+            "pm10": 410.0,
+            "timestamp": "2025-05-04T11:53:35.557468Z",
+            "anomalyType": "WHO_THRESHOLD",
+            "qualityData": {
+                "id": 11,
+                "pm25": 290.0,
+                "pm10": 410.0,
+                "no2": 15.0,
+                "so2": 5.0,
+                "o3": 300.0,
+                "location": "İzmir",
+                "timestamp": "2025-05-04T11:53:35.557468Z",
+                "date": null,
+                "latitude": 38.925533,
+                "longitude": 31.866287
+            }
+        }
+
 ```
 
 ### **GET Son 24 Saatte Girilen Konumun Hava Kalitesi:**
 
 ```
 http://localhost:8080/api/quality/last-24-hours/İzmir
+
+ {
+            "id": 11,
+            "pm25": 290.0,
+            "pm10": 410.0,
+            "no2": 15.0,
+            "so2": 5.0,
+            "o3": 300.0,
+            "location": "İzmir",
+            "timestamp": "2025-05-04T11:53:35.557468Z",
+            "date": null,
+            "latitude": 38.925533,
+            "longitude": 31.866287
+        }
+
 ```
 
 ### **GET Enlem ve Boylama Göre Hava Kirliliğini Getirme:**
 
 ```
 http://localhost:8080/api/quality/region/pollution?latitude=38.925533&longitude=31.866287
+
+
+ "status": "success",
+    "message": "Bölgedeki kirlilik yoğunluğu başarıyla getirildi.",
+    "data": [
+        {
+            "id": 11,
+            "pm25": 290.0,
+            "pm10": 410.0,
+            "no2": 15.0,
+            "so2": 5.0,
+            "o3": 300.0,
+            "location": "İzmir",
+            "timestamp": "2025-05-04T11:53:35.557468Z",
+            "date": null,
+            "latitude": 38.925533,
+            "longitude": 31.866287
+        }
+    ]
+
 ```
 
 ### **GET Isı Haritasını Getirme:**
 
 ```
 http://localhost:8080/api/quality/heatmap?minLat=35.0&maxLat=42.0&minLon=26.0&maxLon=45.0&zoomLevel=5
+
+
+ "features": [
+        {
+            "geometry": {
+                "coordinates": [
+                    34.0,
+                    38.0
+                ],
+                "type": "Point"
+            },
+            "type": "Feature",
+            "properties": {
+                "intensity": 0.4606666666666666,
+                "pm25": 138.2
+            }
+        },
+
 ```
 
 ---
@@ -174,12 +319,14 @@ http://localhost:8080/api/quality/heatmap?minLat=35.0&maxLat=42.0&minLon=26.0&ma
 
 ```
 ./auto-test.sh --duration=60 --rate=3 --anomaly-chance=30
+
 ```
 
 ### **scripts/manual-test.sh**
 
 ```
 ./manual-input.sh 40.7128 -74.0060 pm25 10
+
 ```
 
 ---
