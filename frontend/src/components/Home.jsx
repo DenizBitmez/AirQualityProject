@@ -1,79 +1,137 @@
 import React from 'react';
 import { Wind, CloudRain, Sun, AlertTriangle, ArrowRight } from 'lucide-react';
-import '../App.css';
 
 const Home = () => {
     return (
-        <div className="min-h-screen bg-gradient-to-b from-blue-50 to-blue-100">
-            {/* Navigation Bar */}
-            <nav className="bg-white shadow-md">
-                <div className="container mx-auto px-6 py-3 flex justify-between items-center">
-                    <div className="flex items-center">
-                        <Wind className="h-8 w-8 text-blue-500" />
-                        <span className="ml-2 text-xl font-bold text-gray-800">AirQuality</span>
+        <div style={{ minHeight: '100vh', background: 'linear-gradient(to bottom, #f0f8ff, #e6f2ff)' }}>
+            <nav className="nav">
+                <div className="nav-container">
+                    <div className="nav-logo">
+                        <Wind style={{ height: '2rem', width: '2rem', color: '#3182ce', marginRight: '0.5rem' }} />
+                        <span>AirQuality</span>
                     </div>
                 </div>
             </nav>
 
-            {/* Hero Section */}
-            <div className="container mx-auto px-6 py-16">
-                <div className="flex flex-col md:flex-row items-center">
-                    <div className="md:w-1/2 mb-10 md:mb-0">
-                        <h1 className="text-4xl md:text-5xl font-bold text-gray-800 leading-tight mb-6">
+            <div className="container" style={{ paddingTop: '4rem', paddingBottom: '4rem' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '3rem' }}>
+                    <div style={{ textAlign: 'center', maxWidth: '800px' }}>
+                        <h1 style={{
+                            fontSize: '3rem',
+                            fontWeight: 'bold',
+                            color: '#2d3748',
+                            lineHeight: '1.2',
+                            marginBottom: '1.5rem'
+                        }}>
                             Temiz Hava, Sağlıklı Yaşam
                         </h1>
-                        <p className="text-lg text-gray-600 mb-8">
+                        <p style={{
+                            fontSize: '1.25rem',
+                            color: '#4a5568',
+                            marginBottom: '2rem',
+                            lineHeight: '1.6'
+                        }}>
                             Bulunduğunuz bölgedeki hava kalitesini gerçek zamanlı olarak takip edin ve sağlığınızı koruyun.
                         </p>
-                        <div className="flex space-x-4">
+                        <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
                             <a
                                 href="/dashboard"
-                                className="px-6 py-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition duration-300 flex items-center"
+                                style={{
+                                    display: 'inline-flex',
+                                    alignItems: 'center',
+                                    padding: '0.75rem 1.5rem',
+                                    backgroundColor: '#3182ce',
+                                    color: 'white',
+                                    borderRadius: '0.5rem',
+                                    textDecoration: 'none',
+                                    transition: 'background-color 0.3s ease',
+                                    fontWeight: '500'
+                                }}
+                                onMouseEnter={(e) => e.target.style.backgroundColor = '#2c5aa0'}
+                                onMouseLeave={(e) => e.target.style.backgroundColor = '#3182ce'}
                             >
-                                Dashboard&apos;a Git
-                                <ArrowRight className="ml-2 h-5 w-5" />
+                                Dashboard'a Git
+                                <ArrowRight style={{ marginLeft: '0.5rem', height: '1.25rem', width: '1.25rem' }} />
                             </a>
                             <a
                                 href="#features"
-                                className="px-6 py-3 bg-white border border-blue-500 text-blue-500 rounded-lg hover:bg-blue-50 transition duration-300"
+                                style={{
+                                    display: 'inline-flex',
+                                    alignItems: 'center',
+                                    padding: '0.75rem 1.5rem',
+                                    backgroundColor: 'white',
+                                    color: '#3182ce',
+                                    border: '2px solid #3182ce',
+                                    borderRadius: '0.5rem',
+                                    textDecoration: 'none',
+                                    transition: 'background-color 0.3s ease',
+                                    fontWeight: '500'
+                                }}
+                                onMouseEnter={(e) => e.target.style.backgroundColor = '#ebf8ff'}
+                                onMouseLeave={(e) => e.target.style.backgroundColor = 'white'}
                             >
                                 Daha Fazla Bilgi
                             </a>
                         </div>
                     </div>
-                    <div className="md:w-1/2 flex justify-center">
-                        <div className="w-full max-w-md bg-white p-8 rounded-2xl shadow-xl">
-                            <div className="text-center mb-6">
-                                <h2 className="text-2xl font-bold text-gray-800">Güncel Hava Kalitesi</h2>
-                                <p className="text-gray-500">İstanbul, Türkiye</p>
+
+                    <div className="air-quality-card" style={{ maxWidth: '400px', width: '100%' }}>
+                        <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
+                            <h2 style={{ fontSize: '1.5rem', fontWeight: 'bold', color: '#2d3748', marginBottom: '0.5rem' }}>
+                                Güncel Hava Kalitesi
+                            </h2>
+                            <p style={{ color: '#718096' }}>İstanbul, Türkiye</p>
+                        </div>
+
+                        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '1.5rem' }}>
+                            <div style={{
+                                display: 'flex',
+                                alignItems: 'center',
+                                justifyContent: 'center',
+                                width: '8rem',
+                                height: '8rem',
+                                backgroundColor: '#c6f6d5',
+                                borderRadius: '50%'
+                            }}>
+                                <span style={{ fontSize: '2.5rem', fontWeight: 'bold', color: '#38a169' }}>68</span>
                             </div>
-                            <div className="flex justify-center mb-6">
-                                <div className="flex items-center justify-center w-32 h-32 bg-green-100 rounded-full">
-                                    <span className="text-4xl font-bold text-green-600">68</span>
+                        </div>
+
+                        <p style={{
+                            textAlign: 'center',
+                            fontSize: '1.25rem',
+                            fontWeight: '600',
+                            color: '#38a169',
+                            marginBottom: '1rem'
+                        }}>
+                            İYİ
+                        </p>
+
+                        <div style={{
+                            display: 'grid',
+                            gridTemplateColumns: 'repeat(3, 1fr)',
+                            gap: '1rem',
+                            textAlign: 'center'
+                        }}>
+                            <div>
+                                <p style={{ color: '#718096', fontSize: '0.875rem', marginBottom: '0.5rem' }}>Sıcaklık</p>
+                                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                    <Sun style={{ height: '1rem', width: '1rem', color: '#f6ad55', marginRight: '0.25rem' }} />
+                                    <p style={{ fontWeight: '500' }}>24°C</p>
                                 </div>
                             </div>
-                            <p className="text-center text-lg font-medium text-green-600 mb-4">İYİ</p>
-                            <div className="grid grid-cols-3 gap-4 text-center">
-                                <div className="p-2">
-                                    <p className="text-gray-500 text-sm">Sıcaklık</p>
-                                    <div className="flex items-center justify-center mt-1">
-                                        <Sun className="h-4 w-4 text-yellow-500 mr-1" />
-                                        <p className="font-medium">24°C</p>
-                                    </div>
+                            <div>
+                                <p style={{ color: '#718096', fontSize: '0.875rem', marginBottom: '0.5rem' }}>Nem</p>
+                                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                    <CloudRain style={{ height: '1rem', width: '1rem', color: '#4299e1', marginRight: '0.25rem' }} />
+                                    <p style={{ fontWeight: '500' }}>45%</p>
                                 </div>
-                                <div className="p-2">
-                                    <p className="text-gray-500 text-sm">Nem</p>
-                                    <div className="flex items-center justify-center mt-1">
-                                        <CloudRain className="h-4 w-4 text-blue-500 mr-1" />
-                                        <p className="font-medium">45%</p>
-                                    </div>
-                                </div>
-                                <div className="p-2">
-                                    <p className="text-gray-500 text-sm">PM2.5</p>
-                                    <div className="flex items-center justify-center mt-1">
-                                        <AlertTriangle className="h-4 w-4 text-yellow-500 mr-1" />
-                                        <p className="font-medium">14 µg/m³</p>
-                                    </div>
+                            </div>
+                            <div>
+                                <p style={{ color: '#718096', fontSize: '0.875rem', marginBottom: '0.5rem' }}>PM2.5</p>
+                                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                    <AlertTriangle style={{ height: '1rem', width: '1rem', color: '#f6ad55', marginRight: '0.25rem' }} />
+                                    <p style={{ fontWeight: '500' }}>14 µg/m³</p>
                                 </div>
                             </div>
                         </div>
@@ -81,61 +139,94 @@ const Home = () => {
                 </div>
             </div>
 
-            {/* Features Section */}
-            <div id="features" className="bg-white py-16">
-                <div className="container mx-auto px-6">
-                    <h2 className="text-3xl font-bold text-center text-gray-800 mb-12">Özelliklerimiz</h2>
-                    <div className="grid md:grid-cols-3 gap-8">
-                        <div className="bg-blue-50 p-6 rounded-xl shadow-sm hover:shadow-md transition duration-300">
-                            <div className="bg-blue-100 w-12 h-12 rounded-full flex items-center justify-center mb-4">
-                                <Wind className="h-6 w-6 text-blue-600" />
+            <div id="features" style={{ backgroundColor: 'white', padding: '4rem 0' }}>
+                <div className="container">
+                    <h2 style={{
+                        fontSize: '2rem',
+                        fontWeight: 'bold',
+                        textAlign: 'center',
+                        color: '#2d3748',
+                        marginBottom: '3rem'
+                    }}>
+                        Özelliklerimiz
+                    </h2>
+                    <div className="features-grid">
+                        <div className="feature-card">
+                            <div className="feature-icon">
+                                <Wind style={{ height: '1.5rem', width: '1.5rem', color: '#3182ce' }} />
                             </div>
-                            <h3 className="text-xl font-semibold text-gray-800 mb-2">Gerçek Zamanlı Veriler</h3>
-                            <p className="text-gray-600">En güncel sensör verilerimizle bulunduğunuz bölgenin hava kalitesini anlık olarak takip edin.</p>
+                            <h3 className="feature-title">Gerçek Zamanlı Veriler</h3>
+                            <p className="feature-description">
+                                En güncel sensör verilerimizle bulunduğunuz bölgenin hava kalitesini anlık olarak takip edin.
+                            </p>
                         </div>
-                        <div className="bg-blue-50 p-6 rounded-xl shadow-sm hover:shadow-md transition duration-300">
-                            <div className="bg-blue-100 w-12 h-12 rounded-full flex items-center justify-center mb-4">
-                                <AlertTriangle className="h-6 w-6 text-yellow-600" />
+                        <div className="feature-card">
+                            <div className="feature-icon">
+                                <AlertTriangle style={{ height: '1.5rem', width: '1.5rem', color: '#f6ad55' }} />
                             </div>
-                            <h3 className="text-xl font-semibold text-gray-800 mb-2">Uyarı Sistemi</h3>
-                            <p className="text-gray-600">Hava kalitesi düştüğünde anında bildirim alın ve gerekli önlemleri zamanında alın.</p>
+                            <h3 className="feature-title">Uyarı Sistemi</h3>
+                            <p className="feature-description">
+                                Hava kalitesi düştüğünde anında bildirim alın ve gerekli önlemleri zamanında alın.
+                            </p>
                         </div>
-                        <div className="bg-blue-50 p-6 rounded-xl shadow-sm hover:shadow-md transition duration-300">
-                            <div className="bg-blue-100 w-12 h-12 rounded-full flex items-center justify-center mb-4">
-                                <Sun className="h-6 w-6 text-orange-500" />
+                        <div className="feature-card">
+                            <div className="feature-icon">
+                                <Sun style={{ height: '1.5rem', width: '1.5rem', color: '#f6ad55' }} />
                             </div>
-                            <h3 className="text-xl font-semibold text-gray-800 mb-2">Hava Tahmini</h3>
-                            <p className="text-gray-600">Günlük, haftalık ve aylık hava kalitesi tahminlerimizle geleceği planlayın.</p>
+                            <h3 className="feature-title">Hava Tahmini</h3>
+                            <p className="feature-description">
+                                Günlük, haftalık ve aylık hava kalitesi tahminlerimizle geleceği planlayın.
+                            </p>
                         </div>
                     </div>
                 </div>
             </div>
 
-            {/* Call to Action */}
-            <div className="bg-blue-600 py-16">
-                <div className="container mx-auto px-6 text-center">
-                    <h2 className="text-3xl font-bold text-white mb-4">Hava Kalitesini Hemen Kontrol Edin</h2>
-                    <p className="text-xl text-blue-100 mb-8">Sağlıklı nefes almak için ilk adımı atın</p>
+            <div style={{ backgroundColor: '#3182ce', padding: '4rem 0' }}>
+                <div className="container" style={{ textAlign: 'center' }}>
+                    <h2 style={{
+                        fontSize: '2rem',
+                        fontWeight: 'bold',
+                        color: 'white',
+                        marginBottom: '1rem'
+                    }}>
+                        Hava Kalitesini Hemen Kontrol Edin
+                    </h2>
+                    <p style={{
+                        fontSize: '1.25rem',
+                        color: '#bee3f8',
+                        marginBottom: '2rem'
+                    }}>
+                        Sağlıklı nefes almak için ilk adımı atın
+                    </p>
                     <a
                         href="/dashboard"
-                        className="px-8 py-4 bg-white text-blue-600 rounded-lg hover:bg-blue-50 transition duration-300 font-medium text-lg inline-flex items-center"
+                        className="btn btn-white"
+                        style={{
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            fontSize: '1.125rem'
+                        }}
                     >
-                        Dashboard&apos;a Git
-                        <ArrowRight className="ml-2 h-5 w-5" />
+                        Dashboard'a Git
+                        <ArrowRight style={{ marginLeft: '0.5rem', height: '1.25rem', width: '1.25rem' }} />
                     </a>
                 </div>
             </div>
 
-            {/* Footer */}
-            <footer className="bg-gray-800 py-12">
-                <div className="container mx-auto px-6">
-                    <div className="flex flex-col md:flex-row justify-between">
-                        <div className="mb-6 md:mb-0">
-                            <div className="flex items-center">
-                                <Wind className="h-8 w-8 text-blue-400" />
-                                <span className="ml-2 text-xl font-bold text-white">AirQuality</span>
+            <footer style={{ backgroundColor: '#2d3748', padding: '3rem 0' }}>
+                <div className="container">
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center' }}>
+                        <div style={{ marginBottom: '1.5rem' }}>
+                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '1rem' }}>
+                                <Wind style={{ height: '2rem', width: '2rem', color: '#63b3ed', marginRight: '0.5rem' }} />
+                                <span style={{ fontSize: '1.25rem', fontWeight: 'bold', color: 'white' }}>AirQuality</span>
                             </div>
-                            <p className="mt-4 text-gray-400 max-w-md">
+                            <p style={{
+                                color: '#a0aec0',
+                                maxWidth: '500px',
+                                lineHeight: '1.6'
+                            }}>
                                 Hava kalitesi verilerini izlemenize ve sağlığınızı korumanıza yardımcı olan güvenilir platformunuz.
                             </p>
                         </div>
